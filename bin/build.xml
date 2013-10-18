@@ -114,8 +114,8 @@
 	<exec executable="git">
         <arg value="remote"/>
         <arg value="add"/>
-        <arg value="repo1"/>
-        <arg value="'https://github.com/Malbidion/some-even-more-random-repo'"/>
+        <arg value="repo"/>
+        <arg value="'git@github.com:Malbidion/some-even-more-random-repo.git'"/>
     </exec>
 	<exec executable="git">
         <arg value="add"/>
@@ -128,7 +128,7 @@
     </exec>
     <exec executable="git">
         <arg value="push"/>
-        <arg value="repo1"/>
+        <arg value="repo"/>
     </exec>
 </target>
 

@@ -110,19 +110,35 @@
 	</java>
 </target>
 
-<target name="git_commit" description="Store git revision in ${repository.version}">
+<target name="git_commit" description="asks for a commit comment, makes a commit to the local repository and pushes changes to the GitHub server">
 	<exec executable="git">
         <arg value="add"/>
         <arg value="-A"/>
     </exec>
+	<input message="Enter commit message" addproperty="your-message" />
     <exec executable="git">
         <arg value="commit"/>
         <arg value="-m"/>
-        <arg value="'commenthere'"/>
+        <arg value="'${your-message}'"/>
     </exec>
     <exec executable="git">
         <arg value="push"/>
         <arg value="git@github.com:Malbidion/some-even-more-random-repo.git"/>
+    </exec>
+</target>
+
+<target name="git_tag" description="asks for a tag name and comment, creates the corresponding tag and synchronizes it with the GitHub.">
+	<input message="Enter tag name" addproperty="your-tag-name" />
+	<input message="Enter tag comment" addproperty="your-tag-comment" />
+    <exec executable="git">
+        <arg value="tag"/>
+        <arg value="${your-tag-name}"/>
+        <arg value="-m"/>
+        <arg value="$'{your-tag-comment}'"/>
+    </exec>
+    <exec executable="git">
+        <arg value="push"/>
+        <arg value="--tags"/>
     </exec>
 </target>
 

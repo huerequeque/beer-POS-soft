@@ -112,12 +112,6 @@
 
 <target name="git_commit" description="Store git revision in ${repository.version}">
 	<exec executable="git">
-        <arg value="remote"/>
-        <arg value="add"/>
-        <arg value="repo2"/>
-        <arg value="git@github.com:Malbidion/some-even-more-random-repo.git"/>
-    </exec>
-	<exec executable="git">
         <arg value="add"/>
         <arg value="-A"/>
     </exec>
@@ -128,7 +122,7 @@
     </exec>
     <exec executable="git">
         <arg value="push"/>
-        <arg value="repo2"/>
+        <arg value="'git@github.com:Malbidion/some-even-more-random-repo.git'"/>
     </exec>
 </target>
 

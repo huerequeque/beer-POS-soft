@@ -94,7 +94,7 @@
 				<exclude name="**/src/**"/>
 				<exclude name="**/bin/**"/>
 				<exclude name="**/build/**"/>
-				<exclude name="**/*.java/**"/>
+				<exclude name="**/*.java"/>
 			</fileset>
         </copy>
 		<jar basedir="${classes.dir}" destfile="build/jar/${team_name}.jar">

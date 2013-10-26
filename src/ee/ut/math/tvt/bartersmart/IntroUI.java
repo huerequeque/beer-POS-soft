@@ -1,12 +1,6 @@
 package ee.ut.math.tvt.bartersmart;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -18,16 +12,12 @@ import javax.swing.*;
 
 import com.jgoodies.looks.windows.WindowsLookAndFeel;
 
-import ee.ut.math.tvt.bartersmart.domain.controller.SalesDomainController;
-
 public class IntroUI extends JFrame {
 	JTextArea textArea1 = new JTextArea();
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-
-	private JPanel kontrollPaneel;
 
 	public IntroUI() throws IOException {
 		super("About Bartersmart BeerPOS");

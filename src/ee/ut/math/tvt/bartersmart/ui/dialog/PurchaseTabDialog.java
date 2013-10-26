@@ -33,7 +33,6 @@ import ee.ut.math.tvt.bartersmart.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.bartersmart.domain.data.Order;
 import ee.ut.math.tvt.bartersmart.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.bartersmart.ui.model.SalesSystemModel;
-import ee.ut.math.tvt.bartersmart.ui.tabs.PurchaseTab;
 
 public class PurchaseTabDialog extends JDialog {
 	/**
@@ -191,7 +190,6 @@ public class PurchaseTabDialog extends JDialog {
 						+ model.getCurrentPurchaseTableModel());
 				domainController.submitCurrentPurchase(model
 						.getCurrentPurchaseTableModel().getTableRows());
-				System.out.println("last id " + domainController.getLastId());
 				model.getOrderHistoryTableModel().addOrder(new Order(domainController.getLastId(), Calendar.getInstance(), model
 						.getCurrentPurchaseTableModel().getTableRows()));
 				model.getWarehouseTableModel().updateWarehouse(model
@@ -221,7 +219,7 @@ public class PurchaseTabDialog extends JDialog {
     }
     
 	private void endPayment() {
-		System.out.println("paymentcancelled");
+		log.info("Payment complete");
 		reset();
 		setAlwaysOnTop(false);
 		setVisible(false);

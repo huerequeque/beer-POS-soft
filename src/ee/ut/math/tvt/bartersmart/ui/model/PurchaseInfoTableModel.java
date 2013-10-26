@@ -3,7 +3,6 @@ package ee.ut.math.tvt.bartersmart.ui.model;
 import org.apache.log4j.Logger;
 
 import ee.ut.math.tvt.bartersmart.domain.data.SoldItem;
-import ee.ut.math.tvt.bartersmart.ui.SalesSystemUI;
 
 /**
  * Purchase history details model.

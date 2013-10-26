@@ -4,8 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
-import ee.ut.math.tvt.bartersmart.ui.model.PurchaseInfoTableModel;
-
 /**
  * Already bought StockItem. SoldItem duplicates name and price for preserving history. 
  */

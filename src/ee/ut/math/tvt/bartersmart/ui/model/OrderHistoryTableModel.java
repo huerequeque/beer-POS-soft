@@ -3,8 +3,7 @@ package ee.ut.math.tvt.bartersmart.ui.model;
 import org.apache.log4j.Logger;
 
 import ee.ut.math.tvt.bartersmart.domain.data.Order;
-import ee.ut.math.tvt.bartersmart.domain.data.SoldItem;
-import ee.ut.math.tvt.bartersmart.ui.SalesSystemUI;
+
 
 /**
  * Purchase history details model.
@@ -59,7 +58,6 @@ public class OrderHistoryTableModel extends SalesSystemTableModel<Order> {
          */
         
         rows.add(order);
-        System.out.println("Added order on " + order.getDateString() + " at " + order.getTimeString());
         log.debug("Added order on " + order.getDateString() + " at " + order.getTimeString());
         fireTableDataChanged();
     }

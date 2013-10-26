@@ -26,7 +26,6 @@ import org.apache.log4j.Logger;
 
 import com.jgoodies.looks.windows.WindowsLookAndFeel;
 
-import ee.ut.math.tvt.bartersmart.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.bartersmart.domain.data.StockItem;
 import ee.ut.math.tvt.bartersmart.ui.model.SalesSystemModel;
 
@@ -38,8 +37,6 @@ public class StockTabDialog extends JDialog {
 
 	private static final Logger log = Logger.getLogger(StockTabDialog.class);
 
-	private final SalesDomainController domainController;
-
 	private SalesSystemModel model;
 	
 	private JTextField idField;
@@ -50,15 +47,13 @@ public class StockTabDialog extends JDialog {
 	private JButton addButton;
 	private JButton closeButton;
 
-	public StockTabDialog(Window parentWindow, SalesDomainController controller,
-			SalesSystemModel model) {
+	public StockTabDialog(Window parentWindow, SalesSystemModel model) {
 		super(parentWindow);
-		this.domainController = controller;
 		this.model = model;
 
 		//this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setModal(true);
-		final JComponent panel = draw(controller);
+		final JComponent panel = draw();
 		this.add(panel);
 		
 	    setTitle("Payment dialog");
@@ -88,7 +83,7 @@ public class StockTabDialog extends JDialog {
 		this.setVisible(true);
 	}
 
-	private JComponent draw(SalesDomainController domainController) {
+	private JComponent draw() {
 
 		// Create the panel
 		JPanel panel = new JPanel();
@@ -172,9 +167,9 @@ public class StockTabDialog extends JDialog {
 			double price = Double.parseDouble(priceField.getText());
 			return price;
 		} catch (NumberFormatException ex) {
-			return 0;
+			return -1;
 		} catch (NoSuchElementException ex) {
-			return 0;
+			return -1;
 		}
 	}
 	
@@ -197,12 +192,20 @@ public class StockTabDialog extends JDialog {
 			JOptionPane.showMessageDialog(new JFrame(), message, "Dialog",
 					JOptionPane.ERROR_MESSAGE);
 		}
-		if (getName() == null){
+		if (getProductName() == null){
 			String message = "Invalid name.\n"
 					+ "Please try again\n";
 			JOptionPane.showMessageDialog(new JFrame(), message, "Dialog",
 					JOptionPane.ERROR_MESSAGE);
 		}
+		
+		if (getPrice()<0){
+			String message = "Price invalid.\n"
+					+ "Please try again\n";
+			JOptionPane.showMessageDialog(new JFrame(), message, "Dialog",
+					JOptionPane.ERROR_MESSAGE);
+		}
+		
 		if (getQuantity()<1){
 			String message = "Submitted amount should be more than 0.\n"
 					+ "Please try again\n";
@@ -210,9 +213,10 @@ public class StockTabDialog extends JDialog {
 					JOptionPane.ERROR_MESSAGE);
 		}
 		else {
+			log.info("Item added, id: " + getId() + ", name: " + getProductName()
+					+ ", price: " + getPrice() + ", quantity: " + getQuantity());
 			log.debug("Contents of the current warehouse:\n"
 					+ model.getWarehouseTableModel());
-			System.out.println("last id " + domainController.getLastId());
 			model.getWarehouseTableModel().addItem(new StockItem(getId(), getProductName(), "", getPrice(), getQuantity()));
 		}
 	}

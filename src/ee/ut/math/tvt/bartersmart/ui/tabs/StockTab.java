@@ -2,7 +2,6 @@ package ee.ut.math.tvt.bartersmart.ui.tabs;
 
 import ee.ut.math.tvt.bartersmart.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.bartersmart.domain.exception.VerificationFailedException;
-import ee.ut.math.tvt.bartersmart.ui.dialog.PurchaseTabDialog;
 import ee.ut.math.tvt.bartersmart.ui.dialog.StockTabDialog;
 import ee.ut.math.tvt.bartersmart.ui.model.SalesSystemModel;
 import java.awt.Color;
@@ -118,8 +117,7 @@ public class StockTab {
 					.getCurrentPurchaseTableModel().getTableRows());
 			Window parentWindow = SwingUtilities.windowForComponent(addItem);
 			JDialog purchaseTabDialog = new StockTabDialog(parentWindow,
-					domainController, model);
-			System.out.println("nyyd edasi");
+					model);
 			if (model.getCurrentPurchaseTableModel().getRowCount()==0){
 			}
 		} catch (VerificationFailedException e1) {

@@ -1,12 +1,10 @@
 package ee.ut.math.tvt.bartersmart.domain.controller.impl;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import ee.ut.math.tvt.bartersmart.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.bartersmart.domain.controller.SalesDomainController;
-import ee.ut.math.tvt.bartersmart.domain.data.Order;
 import ee.ut.math.tvt.bartersmart.domain.data.SoldItem;
 import ee.ut.math.tvt.bartersmart.domain.data.StockItem;
 import ee.ut.math.tvt.bartersmart.ui.model.SalesSystemModel;
@@ -19,7 +17,6 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 	private long lastId;
 	
 	public double getCurrentPurchasePrice() {
-		System.out.println("current price" + currentPurchasePrice);
 		return currentPurchasePrice;
 	}
 
@@ -35,7 +32,6 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		for (SoldItem item : goods){
 			currentPurchasePrice+=item.getSum();
 		}
-		System.out.println("current price2" + currentPurchasePrice);
 	}
 
 	public void cancelCurrentPurchase() throws VerificationFailedException {				

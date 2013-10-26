@@ -5,7 +5,6 @@ import java.util.NoSuchElementException;
 
 import org.apache.log4j.Logger;
 
-import ee.ut.math.tvt.bartersmart.domain.data.Order;
 import ee.ut.math.tvt.bartersmart.domain.data.SoldItem;
 import ee.ut.math.tvt.bartersmart.domain.data.StockItem;
 
@@ -60,7 +59,6 @@ public class StockTableModel extends SalesSystemTableModel<StockItem> {
 		try {
 			for (SoldItem soldItem : soldGoods){
 				StockItem stockItem = soldItem.getStockItem();
-				System.out.println("stock item id " + stockItem.getId());
 				stockItem.setQuantity(stockItem.getQuantity() - soldItem.getQuantity());
 				log.debug("Found existing item " + soldItem.getName()
 						+ " decrease quantity by " + soldItem.getQuantity());

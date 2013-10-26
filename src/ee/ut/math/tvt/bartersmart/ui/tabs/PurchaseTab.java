@@ -17,7 +17,6 @@ import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
 
 import ee.ut.math.tvt.bartersmart.domain.controller.SalesDomainController;
-import ee.ut.math.tvt.bartersmart.domain.data.SoldItem;
 import ee.ut.math.tvt.bartersmart.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.bartersmart.ui.dialog.PurchaseTabDialog;
 import ee.ut.math.tvt.bartersmart.ui.model.SalesSystemModel;
@@ -168,7 +167,6 @@ public class PurchaseTab {
 			Window parentWindow = SwingUtilities.windowForComponent(submitPurchase);
 			JDialog purchaseTabDialog = new PurchaseTabDialog(parentWindow,
 					domainController, model);
-			System.out.println("nyyd edasi");
 			if (model.getCurrentPurchaseTableModel().getRowCount()==0){
 				log.info("Sale complete");
 				endSale();

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -49,6 +50,7 @@ public class PurchaseItemPanel extends JPanel {
     // Warehouse model
     private SalesSystemModel model;
     private final SalesDomainController domainController;
+    private String[] itemStrings;
     private List<StockItem> warehouse;
     private  List<StockItem> tempWarehouse = new ArrayList<StockItem>();
     private int leftInStock;
@@ -151,11 +153,11 @@ public class PurchaseItemPanel extends JPanel {
     }
         
     // purchase dialog
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
 	private JComponent drawProductPane(SalesDomainController domainController) {
 
     	warehouse = domainController.loadWarehouseState();
-    	String[] itemStrings = new String[warehouse.size()];
+    	itemStrings = new String[warehouse.size()];
     	for (int i = 0; i<warehouse.size();i++){
     		itemStrings[i]=warehouse.get(i).toString();
     	}
@@ -265,7 +267,6 @@ public class PurchaseItemPanel extends JPanel {
             if (purchaseQuantity<=leftInStock){
             	model.getCurrentPurchaseTableModel()
             		.addItem(new SoldItem(stockItem, purchaseQuantity));
-            	System.out.println("left in stock "+leftInStock);
             	setQuantityInTempWarehouse(purchaseQuantity, stockItem);
             }
             else {
@@ -355,6 +356,21 @@ public class PurchaseItemPanel extends JPanel {
         gc.fill = GridBagConstraints.NONE;
 
         return gc;
+    }
+    
+    @SuppressWarnings("unchecked")
+	public void updateJComboBox(String product) { 
+    	String[] newStringArray = new String[itemStrings.length+1];
+    	int i = 0;
+    	for (String item : itemStrings){
+    		newStringArray[i]=item;
+    		i++;
+    	}
+    	newStringArray[i]=product;
+    	itemStrings=newStringArray;
+    	@SuppressWarnings("rawtypes")
+		DefaultComboBoxModel model = new DefaultComboBoxModel(itemStrings);
+    	chooseProductBox.setModel(model);
     }
     
 }

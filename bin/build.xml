@@ -90,8 +90,12 @@
         <mkdir dir="${classes.dir}"/>
         <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath"/>
         <copy todir="${classes.dir}">
-            <fileset dir="${src.dir}" excludes="**/*.java"/>
-			<fileset dir="${basedir}" includes="**/*.properties"/>
+			<fileset dir="${basedir}">
+				<exclude name="**/src/**"/>
+				<exclude name="**/bin/**"/>
+				<exclude name="**/build/**"/>
+				<exclude name="**/*.java/**"/>
+			</fileset>
         </copy>
 		<jar basedir="${classes.dir}" destfile="build/jar/${team_name}.jar">
 			<manifest>

@@ -53,6 +53,7 @@ public interface SalesDomainController {
 	public long getLastId();
 	
 	public void finalizePurchase();
-
+	
+	public void endSession();
     
 }

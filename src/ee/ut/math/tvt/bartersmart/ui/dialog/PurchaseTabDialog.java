@@ -184,13 +184,13 @@ public class PurchaseTabDialog extends JDialog {
 					JOptionPane.ERROR_MESSAGE);
 		}
 		else {
-			log.info("Sale complete");
 			try {
 				log.debug("Contents of the current basket:\n"
 						+ model.getCurrentPurchaseTableModel());
 				domainController.submitCurrentPurchase(model
 						.getCurrentPurchaseTableModel().getTableRows());
-				model.getOrderHistoryTableModel().addOrder(new Order(domainController.getLastId(), Calendar.getInstance(), model
+				model.getOrderHistoryTableModel().addOrder(new Order
+						(domainController.getLastId(), Calendar.getInstance(), model
 						.getCurrentPurchaseTableModel().getTableRows()));
 				model.getWarehouseTableModel().updateWarehouse(model
 						.getCurrentPurchaseTableModel().getTableRows());

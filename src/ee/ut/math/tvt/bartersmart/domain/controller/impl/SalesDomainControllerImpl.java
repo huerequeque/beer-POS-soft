@@ -8,6 +8,7 @@ import ee.ut.math.tvt.bartersmart.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.bartersmart.domain.data.SoldItem;
 import ee.ut.math.tvt.bartersmart.domain.data.StockItem;
 import ee.ut.math.tvt.bartersmart.ui.model.SalesSystemModel;
+import ee.ut.math.tvt.salessystem.util.HibernateUtil;
 
 /**
  * Implementation of the sales domain controller.
@@ -71,5 +72,9 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 
 	public void setLastId(long lastId) {
 		this.lastId = lastId;
+	}
+	
+	public void endSession() {
+	    HibernateUtil.closeSession();
 	}
 }

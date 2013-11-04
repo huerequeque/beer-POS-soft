@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>tvt</name>
+	<name>beer-POS</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -11,6 +11,7 @@
 			</arguments>
 		</buildCommand>
 	</buildSpec>
+
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>

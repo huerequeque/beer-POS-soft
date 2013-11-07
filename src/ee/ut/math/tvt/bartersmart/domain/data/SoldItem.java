@@ -27,8 +27,8 @@ public class SoldItem implements Cloneable, DisplayableItem {
     
 //    @Column(name = "sale_id")
 //    private Long saleId;
-	@OneToOne(fetch = FetchType.LAZY)
-	@PrimaryKeyJoinColumn(name = "STOCKITEM_ID")
+	@ManyToOne
+    @JoinColumn(name = "STOCKITEM_ID", nullable = false)
     private StockItem stockItem;
     
 	@ManyToOne
@@ -43,6 +43,9 @@ public class SoldItem implements Cloneable, DisplayableItem {
     
     @Column(name = "ITEMPRICE")
     private double price;
+    
+    public SoldItem() {
+    }
     
     public SoldItem(StockItem stockItem, int quantity) {
         this.stockItem = stockItem;
@@ -100,6 +103,17 @@ public class SoldItem implements Cloneable, DisplayableItem {
 
     public void setStockItem(StockItem stockItem) {
         this.stockItem = stockItem;
+        this.name = stockItem.getName();
+        this.price = stockItem.getPrice();
     }
+    
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+	public Order getOrder() {
+		// TODO Auto-generated method stub
+		return order;
+	}
     
 }

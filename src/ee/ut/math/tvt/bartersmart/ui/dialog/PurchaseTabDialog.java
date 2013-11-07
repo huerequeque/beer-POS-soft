@@ -11,6 +11,7 @@ import java.awt.event.FocusListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Calendar;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import javax.swing.BorderFactory;
@@ -31,6 +32,7 @@ import com.jgoodies.looks.windows.WindowsLookAndFeel;
 
 import ee.ut.math.tvt.bartersmart.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.bartersmart.domain.data.Order;
+import ee.ut.math.tvt.bartersmart.domain.data.SoldItem;
 import ee.ut.math.tvt.bartersmart.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.bartersmart.ui.model.SalesSystemModel;
 
@@ -187,14 +189,15 @@ public class PurchaseTabDialog extends JDialog {
 			try {
 				log.debug("Contents of the current basket:\n"
 						+ model.getCurrentPurchaseTableModel());
-				domainController.submitCurrentPurchase(model
-						.getCurrentPurchaseTableModel().getTableRows());
-				model.getOrderHistoryTableModel().addOrder(new Order
+				List<SoldItem> soldItems = model
+						.getCurrentPurchaseTableModel().getTableRows();
+				domainController.submitCurrentPurchase(soldItems);
+				model.getWarehouseTableModel().updateWarehouse(soldItems);
+				Order order = new Order
 						(domainController.getLastId(), Calendar.getInstance(), model
-						.getCurrentPurchaseTableModel().getTableRows()));
-				model.getWarehouseTableModel().updateWarehouse(model
 						.getCurrentPurchaseTableModel().getTableRows());
-				domainController.finalizePurchase();
+				model.getOrderHistoryTableModel().addOrder(order);
+				domainController.finalizePurchase(order, soldItems);
 				endPayment();
 				model.getCurrentPurchaseTableModel().clear();
 			} catch (VerificationFailedException e1) {

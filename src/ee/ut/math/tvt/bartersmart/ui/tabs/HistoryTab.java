@@ -78,7 +78,7 @@ public class HistoryTab {
 	            // print first column value from selected row
 	        	if (historyTable.getSelectedRow()>-1){
 	        		orderModel.clear();
-	        		List<SoldItem> goods = getOrderById((long)historyTable.getSelectedRow()).getGoods();
+	        		List<SoldItem> goods = getOrderById((long)historyTable.getSelectedRow()+1).getGoods();
 	        		for (SoldItem item : goods){
 	        			orderModel.addItem(item);
 	        		}

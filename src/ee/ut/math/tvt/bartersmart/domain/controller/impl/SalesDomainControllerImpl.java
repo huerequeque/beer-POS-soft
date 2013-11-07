@@ -5,10 +5,12 @@ import java.util.List;
 
 import ee.ut.math.tvt.bartersmart.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.bartersmart.domain.controller.SalesDomainController;
+import ee.ut.math.tvt.bartersmart.domain.data.Order;
 import ee.ut.math.tvt.bartersmart.domain.data.SoldItem;
 import ee.ut.math.tvt.bartersmart.domain.data.StockItem;
 import ee.ut.math.tvt.bartersmart.ui.model.SalesSystemModel;
-import ee.ut.math.tvt.salessystem.util.HibernateUtil;
+import ee.ut.math.tvt.bartersmart.util.HibernateUtil;
+import ee.ut.math.tvt.bartersmart.service.HibernateDataService;
 
 /**
  * Implementation of the sales domain controller.
@@ -16,7 +18,12 @@ import ee.ut.math.tvt.salessystem.util.HibernateUtil;
 public class SalesDomainControllerImpl implements SalesDomainController {
 	private double currentPurchasePrice;
 	private long lastId;
+	private final HibernateDataService service;
 	
+	public SalesDomainControllerImpl(HibernateDataService service) {
+		this.service=service;
+	}
+
 	public double getCurrentPurchasePrice() {
 		return currentPurchasePrice;
 	}
@@ -40,8 +47,13 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		currentPurchasePrice=0;
 	}
 	
-	public void finalizePurchase() {
-		lastId+=1; 
+	public void finalizePurchase(Order order, List<SoldItem> soldItems) {
+		lastId+=1;
+		service.saveOrder(order);
+		for (SoldItem item: soldItems){
+			item.setOrder(order);
+			service.saveOrder(order);
+		}
 	}
 	
 	public void startNewPurchase() throws VerificationFailedException {
@@ -53,15 +65,18 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		// XXX mock implementation
 		List<StockItem> dataset = new ArrayList<StockItem>();
 
-		StockItem chips = new StockItem(1l, "Lays chips", "Potato chips", 11.0, 5);
-		StockItem chupaChups = new StockItem(2l, "Chupa-chups", "Sweets", 8.0, 8);
-	    StockItem frankfurters = new StockItem(3l, "Frankfurters", "Beer sauseges", 15.0, 12);
-	    StockItem beer = new StockItem(4l, "Free Beer", "Student's delight", 0.0, 100);
-
-		dataset.add(chips);
-		dataset.add(chupaChups);
-		dataset.add(frankfurters);
-		dataset.add(beer);
+//		StockItem chips = new StockItem(1l, "Lays chips", "Potato chips", 11.0, 5);
+//		StockItem chupaChups = new StockItem(2l, "Chupa-chups", "Sweets", 8.0, 8);
+//	    StockItem frankfurters = new StockItem(3l, "Frankfurters", "Beer sauseges", 15.0, 12);
+//	    StockItem beer = new StockItem(4l, "Free Beer", "Student's delight", 0.0, 100);
+//
+//		dataset.add(chips);
+//		dataset.add(chupaChups);
+//		dataset.add(frankfurters);
+//		dataset.add(beer);
+		
+		HibernateDataService service = new HibernateDataService();
+        dataset = service.getStockItems();
 		
 		return dataset;
 	}
@@ -76,5 +91,16 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 	
 	public void endSession() {
 	    HibernateUtil.closeSession();
+	}
+
+	@Override
+	public List<Order> loadOrderHistory() {
+		// TODO Auto-generated method stub
+		List<Order> dataset = new ArrayList<Order>();
+		
+		HibernateDataService service = new HibernateDataService();
+        dataset = service.getOrders();
+		
+		return dataset;
 	}
 }

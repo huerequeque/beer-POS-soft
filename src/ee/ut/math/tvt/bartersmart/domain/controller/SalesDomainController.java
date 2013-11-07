@@ -2,6 +2,7 @@ package ee.ut.math.tvt.bartersmart.domain.controller;
 
 import java.util.List;
 
+import ee.ut.math.tvt.bartersmart.domain.data.Order;
 import ee.ut.math.tvt.bartersmart.domain.data.SoldItem;
 import ee.ut.math.tvt.bartersmart.domain.data.StockItem;
 import ee.ut.math.tvt.bartersmart.domain.exception.VerificationFailedException;
@@ -52,8 +53,10 @@ public interface SalesDomainController {
 
 	public long getLastId();
 	
-	public void finalizePurchase();
+	public void finalizePurchase(Order order, List<SoldItem> soldItems);
 	
 	public void endSession();
+
+	public List<Order> loadOrderHistory();
     
 }

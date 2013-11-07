@@ -1,10 +1,13 @@
 package ee.ut.math.tvt.bartersmart.domain.data;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -30,7 +33,13 @@ public class StockItem implements Cloneable, DisplayableItem {
     
     @Column(name = "quantity")
     private int quantity;
-
+    
+    @OneToMany(mappedBy = "stockItem")
+    private Set<SoldItem> solditems;
+    
+    public StockItem(){
+    }
+    
     /**
      * Constucts new <code>StockItem</code> with the specified values.
      * @param id barcode id
@@ -51,12 +60,6 @@ public class StockItem implements Cloneable, DisplayableItem {
         this.description = desc;
         this.price = price;
         this.quantity = quantity;
-    }
-
-    /**
-     * Constructs new  <code>StockItem</code>.
-     */
-    public StockItem() {
     }
 
     public String getDescription() {

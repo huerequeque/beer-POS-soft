@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 import ee.ut.math.tvt.bartersmart.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.bartersmart.domain.controller.impl.SalesDomainControllerImpl;
+import ee.ut.math.tvt.bartersmart.service.HibernateDataService;
 import ee.ut.math.tvt.bartersmart.ui.ConsoleUI;
 import ee.ut.math.tvt.bartersmart.ui.SalesSystemUI;
 
@@ -14,8 +15,9 @@ public class Intro {
 	private static final String MODE = "console";
 
 	public static void main(String[] args) throws IOException {
-
-		final SalesDomainController domainController = new SalesDomainControllerImpl();
+		
+		final HibernateDataService service = new HibernateDataService();
+		final SalesDomainController domainController = new SalesDomainControllerImpl(service);
 		DOMConfigurator.configure("etc/log4j.xml");
 
 		if (args.length == 1 && args[0].equals(MODE)) {

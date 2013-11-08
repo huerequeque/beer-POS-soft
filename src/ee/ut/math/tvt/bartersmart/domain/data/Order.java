@@ -18,6 +18,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Formula;
+
 /**
  * Already bought StockItem. SoldItem duplicates name and price for preserving history. 
  */
@@ -32,14 +34,9 @@ public class Order implements Cloneable, DisplayableItem {
 	@Temporal(TemporalType.DATE)
 	@Column(name = "SALE_DATE")
     private Calendar calendar;
-	
-	@Transient
-    private String dateString;
     
-	@Transient
-	private String timeString;
-    
-	@Transient
+	@Column(name = "TOTALPRICE")
+    @Formula(value = "(select sum(SOLDITEM.quantity*SOLDITEM.ITEMPRICE) from SOLDITEM where SOLDITEM.SALE_ID = id)")
 	private double price;
 	
     @OneToMany(mappedBy = "order")
@@ -57,9 +54,7 @@ public class Order implements Cloneable, DisplayableItem {
     	this.setCalendar(time);
         this.time=(Date) time.getTime();
     	this.goods = goods;
-        this.price = calculatePrice();
-        this.dateString =new SimpleDateFormat("yyyy-MM-dd").format(time.getTime());
-        this.timeString =new SimpleDateFormat("HH:mm:ss").format(time.getTime()); 
+        this.price = calculatePrice(); 
     }
     
     public Calendar getCalendar() {
@@ -77,14 +72,6 @@ public class Order implements Cloneable, DisplayableItem {
 
 	public void setId(long id) {
 		this.id = id;
-	}
-
-	public String getDateString() {
-		return dateString;
-	}
-
-	public String getTimeString() {
-		return timeString;
 	}
 
 	public void setTime(Calendar time) {
@@ -113,6 +100,7 @@ public class Order implements Cloneable, DisplayableItem {
 
     public void setGoods(List<SoldItem> goods) {
         this.goods = goods;
+        setPrice(calculatePrice());
     }
 
 	@Override

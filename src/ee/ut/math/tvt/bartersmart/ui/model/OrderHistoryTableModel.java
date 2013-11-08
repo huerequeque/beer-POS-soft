@@ -1,5 +1,9 @@
 package ee.ut.math.tvt.bartersmart.ui.model;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import org.apache.log4j.Logger;
 
 import ee.ut.math.tvt.bartersmart.domain.data.Order;
@@ -21,9 +25,9 @@ public class OrderHistoryTableModel extends SalesSystemTableModel<Order> {
 	protected Object getColumnValue(Order order, int columnIndex) {
 		switch (columnIndex) {
 		case 0:
-			return order.getDateString();
+			return getDateString(order.getCalendar());
 		case 1:
-			return order.getTimeString();
+			return getTimeString(order.getTime());
 		case 2:
 			return order.getPrice();
 		}
@@ -39,15 +43,24 @@ public class OrderHistoryTableModel extends SalesSystemTableModel<Order> {
 		buffer.append("\n");
 
 		for (final Order order : rows) {
-			buffer.append(order.getDateString() + "\t");
-			buffer.append(order.getTimeString() + "\t");
+			buffer.append(getDateString(order.getCalendar()) + "\t");
+			buffer.append(getTimeString(order.getTime()) + "\t");
 			buffer.append(order.getPrice() + "\t");
 			buffer.append("\n");
 		}
 
 		return buffer.toString();
 	}
-	
+
+	private String getDateString(Calendar time){
+		String dateString =new SimpleDateFormat("yyyy-MM-dd").format(time.getTime());
+		return dateString;
+	}
+
+	private String getTimeString(Date time){
+		String timeString =new SimpleDateFormat("HH:mm:ss").format(time.getTime());
+		return timeString;
+	}
     /**
      * Add new StockItem to table.
      */
@@ -58,7 +71,7 @@ public class OrderHistoryTableModel extends SalesSystemTableModel<Order> {
          */
         
         rows.add(order);
-        log.debug("Added order on " + order.getDateString() + " at " + order.getTimeString());
+        log.debug("Added order on " + getDateString(order.getCalendar()) + " at " +getTimeString(order.getTime()));
         fireTableDataChanged();
     }
 

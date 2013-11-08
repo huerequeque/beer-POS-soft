@@ -193,9 +193,8 @@ public class PurchaseTabDialog extends JDialog {
 						.getCurrentPurchaseTableModel().getTableRows();
 				domainController.submitCurrentPurchase(soldItems);
 				model.getWarehouseTableModel().updateWarehouse(soldItems);
-				Order order = new Order
-						(domainController.getLastId(), Calendar.getInstance(), model
-						.getCurrentPurchaseTableModel().getTableRows());
+				Order order = domainController.databaseOrderConvert(new Order
+						(domainController.getLastId(), Calendar.getInstance(), soldItems));				
 				model.getOrderHistoryTableModel().addOrder(order);
 				domainController.finalizePurchase(order, soldItems);
 				endPayment();

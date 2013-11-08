@@ -15,38 +15,10 @@ public class HibernateDataService {
 
 	private Session session = HibernateUtil.currentSession();
 	
-	public void saveStockItem(StockItem stockItem){
+	public void saveItem(Object item){
 		session.beginTransaction();
-		StockItem newItem = new StockItem();
-		newItem.setName(stockItem.getName());
-		newItem.setPrice(stockItem.getPrice());
-		newItem.setDescription(stockItem.getDescription());
-		newItem.setQuantity(stockItem.getQuantity());
-		session.save(newItem);
+		session.save(item);
 		session.getTransaction().commit();
-		
-	}
-	
-	public void saveOrder(Order order){
-		session.beginTransaction();
-		Order newOrder = new Order();
-		newOrder.setCalendar(order.getCalendar());
-		newOrder.setPrice(order.getPrice());
-		newOrder.setGoods(order.getGoods());
-		session.save(newOrder);
-		session.getTransaction().commit();
-		
-	}
-	
-	public void saveSoldItem(SoldItem soldItem){
-		session.beginTransaction();
-		SoldItem newItem = new SoldItem();
-		newItem.setStockItem(soldItem.getStockItem());
-		newItem.setOrder(soldItem.getOrder());
-		newItem.setQuantity(soldItem.getQuantity());
-		session.save(newItem);
-		session.getTransaction().commit();
-		
 	}
 	
 	public List<StockItem> getStockItems() {

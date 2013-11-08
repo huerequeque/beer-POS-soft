@@ -49,11 +49,41 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 	
 	public void finalizePurchase(Order order, List<SoldItem> soldItems) {
 		lastId+=1;
-		service.saveOrder(order);
+		order.setGoods(soldItems);
+		service.saveItem(order);
 		for (SoldItem item: soldItems){
 			item.setOrder(order);
-			service.saveOrder(order);
+			service.saveItem(item);
 		}
+	}
+	
+	public void saveNewStockItem(StockItem stockItem) {
+		service.saveItem(stockItem);
+	}
+	
+	public Order databaseOrderConvert(Order order){
+		Order newOrder = new Order();
+		newOrder.setCalendar(order.getCalendar());
+		newOrder.setPrice(order.getPrice());
+		newOrder.setGoods(order.getGoods());
+		return newOrder;
+	}
+	
+	public SoldItem databaseSoldItemConvert(SoldItem soldItem){
+		SoldItem newItem = new SoldItem();
+		newItem.setStockItem(soldItem.getStockItem());
+		newItem.setOrder(soldItem.getOrder());
+		newItem.setQuantity(soldItem.getQuantity());
+		return newItem;
+	}
+	
+	public StockItem databaseStockItemConvert(StockItem stockItem){
+		StockItem newItem = new StockItem();
+		newItem.setName(stockItem.getName());
+		newItem.setPrice(stockItem.getPrice());
+		newItem.setDescription(stockItem.getDescription());
+		newItem.setQuantity(stockItem.getQuantity());
+		return newItem;
 	}
 	
 	public void startNewPurchase() throws VerificationFailedException {

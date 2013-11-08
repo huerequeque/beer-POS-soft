@@ -23,6 +23,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 
 import ee.ut.math.tvt.bartersmart.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.bartersmart.domain.data.SoldItem;
@@ -64,7 +66,15 @@ public class PurchaseItemPanel extends JPanel {
     public PurchaseItemPanel(SalesSystemModel model, SalesDomainController domainController) {
     	this.model = model;
         this.domainController = domainController;
-
+        
+        model.getWarehouseTableModel().addTableModelListener(new TableModelListener() {            
+			@Override
+			public void tableChanged(TableModelEvent arg0) {
+				// TODO Auto-generated method stub
+				updateJComboBox();
+				
+			}
+        });
         setLayout(new GridBagLayout());
 
         add(drawDialogPane(domainController), getDialogPaneConstraints());
@@ -156,12 +166,7 @@ public class PurchaseItemPanel extends JPanel {
     @SuppressWarnings({ "unchecked", "rawtypes" })
 	private JComponent drawProductPane(SalesDomainController domainController) {
 
-    	warehouse = domainController.loadWarehouseState();
-    	itemStrings = new String[warehouse.size()];
-    	for (int i = 0; i<warehouse.size();i++){
-    		itemStrings[i]=warehouse.get(i).toString();
-    	}
-    	chooseProductBox = new JComboBox(itemStrings);
+    	chooseProductBox = new JComboBox(createProductStrings());
     	// - select product
     	chooseProductBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -175,7 +180,18 @@ public class PurchaseItemPanel extends JPanel {
     	return panel;
     }
 
-    // Fill dialog with data from the "database".
+    private String[] createProductStrings() {
+		// TODO Auto-generated method stub
+    	warehouse = domainController.loadWarehouseState();
+    	itemStrings = new String[warehouse.size()];
+    	for (int i = 0; i<warehouse.size();i++){
+    		itemStrings[i]=warehouse.get(i).toString();
+    	}
+    	return itemStrings;
+		
+	}
+
+	// Fill dialog with data from the "database".
     public void fillDialogFields() {
         StockItem stockItem = getStockItemByBarcode();        
         if (stockItem != null) {
@@ -266,7 +282,7 @@ public class PurchaseItemPanel extends JPanel {
             }
             if (purchaseQuantity<=leftInStock){
             	model.getCurrentPurchaseTableModel()
-            		.addItem(new SoldItem(stockItem, purchaseQuantity));
+            		.addItem(domainController.databaseSoldItemConvert(new SoldItem(stockItem, purchaseQuantity)));
             	setQuantityInTempWarehouse(purchaseQuantity, stockItem);
             }
             else {
@@ -359,15 +375,8 @@ public class PurchaseItemPanel extends JPanel {
     }
     
     @SuppressWarnings("unchecked")
-	public void updateJComboBox(String product) { 
-    	String[] newStringArray = new String[itemStrings.length+1];
-    	int i = 0;
-    	for (String item : itemStrings){
-    		newStringArray[i]=item;
-    		i++;
-    	}
-    	newStringArray[i]=product;
-    	itemStrings=newStringArray;
+	public void updateJComboBox() { 
+    	itemStrings=createProductStrings();
     	@SuppressWarnings("rawtypes")
 		DefaultComboBoxModel model = new DefaultComboBoxModel(itemStrings);
     	chooseProductBox.setModel(model);

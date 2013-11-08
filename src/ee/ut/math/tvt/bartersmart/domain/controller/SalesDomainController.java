@@ -58,5 +58,13 @@ public interface SalesDomainController {
 	public void endSession();
 
 	public List<Order> loadOrderHistory();
+	
+	public Order databaseOrderConvert(Order order);
+	
+	public SoldItem databaseSoldItemConvert(SoldItem SoldItem);
+
+	public StockItem databaseStockItemConvert(StockItem stockItem);
+
+	public void saveNewStockItem(StockItem newItem);
     
 }

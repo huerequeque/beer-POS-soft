@@ -26,6 +26,7 @@ import org.apache.log4j.Logger;
 
 import com.jgoodies.looks.windows.WindowsLookAndFeel;
 
+import ee.ut.math.tvt.bartersmart.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.bartersmart.domain.data.StockItem;
 import ee.ut.math.tvt.bartersmart.ui.model.SalesSystemModel;
 
@@ -167,9 +168,9 @@ public class StockTabDialog extends JDialog {
 			double price = Double.parseDouble(priceField.getText());
 			return price;
 		} catch (NumberFormatException ex) {
-			return -1;
+			return 0;
 		} catch (NoSuchElementException ex) {
-			return -1;
+			return 0;
 		}
 	}
 	
@@ -217,7 +218,8 @@ public class StockTabDialog extends JDialog {
 					+ ", price: " + getPrice() + ", quantity: " + getQuantity());
 			log.debug("Contents of the current warehouse:\n"
 					+ model.getWarehouseTableModel());
-			model.getWarehouseTableModel().addItem(new StockItem(getId(), getProductName(), "", getPrice(), getQuantity()));
+			StockItem newItem = new StockItem(getId(), getProductName(), "", getPrice(), getQuantity());
+			model.getWarehouseTableModel().addItem(newItem);
 		}
 	}
 	

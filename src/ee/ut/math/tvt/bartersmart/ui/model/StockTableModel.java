@@ -5,6 +5,7 @@ import java.util.NoSuchElementException;
 
 import org.apache.log4j.Logger;
 
+import ee.ut.math.tvt.bartersmart.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.bartersmart.domain.data.SoldItem;
 import ee.ut.math.tvt.bartersmart.domain.data.StockItem;
 
@@ -15,9 +16,11 @@ public class StockTableModel extends SalesSystemTableModel<StockItem> {
 	private static final long serialVersionUID = 1L;
 
 	private static final Logger log = Logger.getLogger(StockTableModel.class);
+	private SalesDomainController domainController;
 
-	public StockTableModel() {
+	public StockTableModel(SalesDomainController domainController) {
 		super(new String[] {"Id", "Name", "Price", "Quantity"});
+		this.domainController = domainController;
 	}
 
 	@Override
@@ -48,7 +51,9 @@ public class StockTableModel extends SalesSystemTableModel<StockItem> {
 					+ " increased quantity by " + stockItem.getQuantity());
 		}
 		catch (NoSuchElementException e) {
-			rows.add(stockItem);
+			StockItem newItem = domainController.databaseStockItemConvert(stockItem);
+			domainController.saveNewStockItem(newItem);
+			rows.add(newItem);
 			log.debug("Added " + stockItem.getName()
 					+ " quantity of " + stockItem.getQuantity());
 		}

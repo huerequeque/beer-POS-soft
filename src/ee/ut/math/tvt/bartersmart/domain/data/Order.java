@@ -35,8 +35,8 @@ public class Order implements Cloneable, DisplayableItem {
 	@Column(name = "SALE_DATE")
     private Calendar calendar;
     
-	@Column(name = "TOTALPRICE")
-    @Formula(value = "(select sum(SOLDITEM.quantity*SOLDITEM.ITEMPRICE) from SOLDITEM where SOLDITEM.SALE_ID = id)")
+	@Column(name = "TOTALPRICE", nullable=false)
+    //@Formula(value = "(select sum(SOLDITEM.quantity*SOLDITEM.ITEMPRICE) from SOLDITEM where SOLDITEM.SALE_ID = id)")
 	private double price;
 	
     @OneToMany(mappedBy = "order")

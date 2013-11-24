@@ -52,12 +52,12 @@ public class OrderHistoryTableModel extends SalesSystemTableModel<Order> {
 		return buffer.toString();
 	}
 
-	private String getDateString(Calendar time){
+	public String getDateString(Calendar time){
 		String dateString =new SimpleDateFormat("yyyy-MM-dd").format(time.getTime());
 		return dateString;
 	}
 
-	private String getTimeString(Date time){
+	public String getTimeString(Date time){
 		String timeString =new SimpleDateFormat("HH:mm:ss").format(time.getTime());
 		return timeString;
 	}

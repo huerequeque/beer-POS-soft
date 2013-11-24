@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import ee.ut.math.tvt.bartersmart.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.bartersmart.domain.data.SoldItem;
 import ee.ut.math.tvt.bartersmart.domain.data.StockItem;
+import ee.ut.math.tvt.bartersmart.domain.exception.DuplicateStockItemNameException;
 
 /**
  * Stock item table model.
@@ -21,6 +22,10 @@ public class StockTableModel extends SalesSystemTableModel<StockItem> {
 	public StockTableModel(SalesDomainController domainController) {
 		super(new String[] {"Id", "Name", "Price", "Quantity"});
 		this.domainController = domainController;
+	}
+	
+	public StockTableModel() {
+		super(new String[] {"Id", "Name", "Price", "Quantity"});
 	}
 
 	@Override
@@ -42,21 +47,31 @@ public class StockTableModel extends SalesSystemTableModel<StockItem> {
 	 * Add new stock item to table. If there already is a stock item with
 	 * same id, then existing item's quantity will be increased.
 	 * @param stockItem
+	 * @throws DuplicateStockItemNameException 
 	 */
-	public void addItem(final StockItem stockItem) {
-		try {
-			StockItem item = getItemById(stockItem.getId());
-			item.setQuantity(item.getQuantity() + stockItem.getQuantity());
-			log.debug("Found existing item " + stockItem.getName()
-					+ " increased quantity by " + stockItem.getQuantity());
-		}
-		catch (NoSuchElementException e) {
-			StockItem newItem = domainController.databaseStockItemConvert(stockItem);
-			domainController.saveNewStockItem(newItem);
-			rows.add(newItem);
-			log.debug("Added " + stockItem.getName()
-					+ " quantity of " + stockItem.getQuantity());
-		}
+	public void addItem(final StockItem stockItem) throws DuplicateStockItemNameException {
+		
+			try {
+				StockItem item = getItemById(stockItem.getId());
+				item.setQuantity(item.getQuantity() + stockItem.getQuantity());
+				log.debug("Found existing item " + stockItem.getName()
+						+ " increased quantity by " + stockItem.getQuantity());
+			}
+			catch (NoSuchElementException e) {
+				if (isUniqueName(stockItem.getName())){
+					StockItem newItem = domainController.databaseStockItemConvert(stockItem);
+					domainController.saveNewStockItem(newItem);
+					rows.add(newItem);
+					log.debug("Added " + stockItem.getName()
+							+ " quantity of " + stockItem.getQuantity());
+				}
+				else{
+					log.debug("Duplicate names not allowed!");
+					throw new DuplicateStockItemNameException();
+				}
+			}
+		
+
 		fireTableDataChanged();
 	}
 
@@ -64,9 +79,12 @@ public class StockTableModel extends SalesSystemTableModel<StockItem> {
 		try {
 			for (SoldItem soldItem : soldGoods){
 				StockItem stockItem = soldItem.getStockItem();
-				stockItem.setQuantity(stockItem.getQuantity() - soldItem.getQuantity());
-				log.debug("Found existing item " + soldItem.getName()
-						+ " decrease quantity by " + soldItem.getQuantity());
+				if (hasEnoughInStock(stockItem, soldItem)){
+					stockItem.setQuantity(stockItem.getQuantity() - soldItem.getQuantity());
+					log.debug("Found existing item " + soldItem.getName()
+							+ " decrease quantity by " + soldItem.getQuantity());
+				}
+				else log.debug("Not enough in stock!");
 			}
 		}
 		catch (NoSuchElementException e) {
@@ -75,6 +93,12 @@ public class StockTableModel extends SalesSystemTableModel<StockItem> {
 		fireTableDataChanged();
 	}
 	
+	public boolean hasEnoughInStock(StockItem stockItem, SoldItem soldItem) {
+		// TODO Auto-generated method stub
+		if (stockItem.getQuantity()-soldItem.getQuantity()>=0) return true;
+		return false;
+	}
+
 	@Override
 	public String toString() {
 		final StringBuffer buffer = new StringBuffer();
@@ -93,5 +117,14 @@ public class StockTableModel extends SalesSystemTableModel<StockItem> {
 
 		return buffer.toString();
 	}
+	
+    public boolean isUniqueName(String name) throws DuplicateStockItemNameException {
+        for (final StockItem item : rows) {
+            if (item.getName().equals(name)){
+            	return false;
+            }
+        }
+        return true;        
+    }
 
 }

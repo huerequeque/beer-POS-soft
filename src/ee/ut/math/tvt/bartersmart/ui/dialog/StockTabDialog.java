@@ -28,6 +28,7 @@ import com.jgoodies.looks.windows.WindowsLookAndFeel;
 
 import ee.ut.math.tvt.bartersmart.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.bartersmart.domain.data.StockItem;
+import ee.ut.math.tvt.bartersmart.domain.exception.DuplicateStockItemNameException;
 import ee.ut.math.tvt.bartersmart.ui.model.SalesSystemModel;
 
 public class StockTabDialog extends JDialog {
@@ -219,7 +220,14 @@ public class StockTabDialog extends JDialog {
 			log.debug("Contents of the current warehouse:\n"
 					+ model.getWarehouseTableModel());
 			StockItem newItem = new StockItem(getId(), getProductName(), "", getPrice(), getQuantity());
-			model.getWarehouseTableModel().addItem(newItem);
+			try {
+				model.getWarehouseTableModel().addItem(newItem);
+			} catch (DuplicateStockItemNameException e) {
+				String message = "Duplicate names not allowed!\n"
+						+ "Please try again\n";
+				JOptionPane.showMessageDialog(new JFrame(), message, "Dialog",
+						JOptionPane.ERROR_MESSAGE);
+			}
 		}
 	}
 	

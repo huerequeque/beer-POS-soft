@@ -1,12 +1,16 @@
 package ee.ut.math.tvt.bartersmart.util;
 
 import org.apache.log4j.Logger;
+import org.dom4j.DocumentException;
+import org.jboss.logging.BasicLogger;
+import javax.transaction.SystemException;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
+import org.hibernate.annotations.common.reflection.ReflectionManager;
 
 /**
  * Utility class that makes sure we has a single open hibernate session.
@@ -21,7 +25,7 @@ public class HibernateUtil {
 		try {
 			// Create the SessionFactory from hibernate.cfg.xml
 			Configuration configuration = new Configuration();
-			configuration.configure();
+			configuration.configure("/etc/hibernate.cfg.xml");
 
 			serviceRegistry = new ServiceRegistryBuilder().applySettings(configuration.getProperties()).buildServiceRegistry();
 			sessionFactory = configuration.buildSessionFactory(serviceRegistry);

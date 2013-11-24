@@ -3,14 +3,13 @@ package ee.ut.math.tvt.bartersmart.domain.controller.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import ee.ut.math.tvt.bartersmart.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.bartersmart.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.bartersmart.domain.data.Order;
 import ee.ut.math.tvt.bartersmart.domain.data.SoldItem;
 import ee.ut.math.tvt.bartersmart.domain.data.StockItem;
-import ee.ut.math.tvt.bartersmart.ui.model.SalesSystemModel;
-import ee.ut.math.tvt.bartersmart.util.HibernateUtil;
+import ee.ut.math.tvt.bartersmart.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.bartersmart.service.HibernateDataService;
+import ee.ut.math.tvt.bartersmart.util.HibernateUtil;
 
 /**
  * Implementation of the sales domain controller.

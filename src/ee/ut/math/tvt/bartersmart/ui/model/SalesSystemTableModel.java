@@ -1,12 +1,17 @@
 package ee.ut.math.tvt.bartersmart.ui.model;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 import javax.swing.table.AbstractTableModel;
 
 import ee.ut.math.tvt.bartersmart.domain.data.DisplayableItem;
+import ee.ut.math.tvt.bartersmart.domain.data.SoldItem;
+import ee.ut.math.tvt.bartersmart.domain.data.StockItem;
+import ee.ut.math.tvt.bartersmart.domain.exception.DuplicateStockItemNameException;
 
 /**
  * Generic table model implementation suitable for extending.
@@ -72,6 +77,25 @@ public abstract class SalesSystemTableModel<T extends DisplayableItem> extends
         rows.clear();
         rows.addAll(data);
     }
-    
+
+	public boolean isUniqueName(String string) throws DuplicateStockItemNameException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean hasEnoughInStock(StockItem stockItem1, SoldItem soldItem1) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public Object getDateString(Calendar time) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public String getTimeString(Date time){
+		// TODO Auto-generated method stub
+		return null;
+	}
     
 }

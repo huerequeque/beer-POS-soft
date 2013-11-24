@@ -102,6 +102,11 @@ public class Order implements Cloneable, DisplayableItem {
         this.goods = goods;
         setPrice(calculatePrice());
     }
+    
+    public void addSoldItem(SoldItem item) {
+        goods.add(item);
+        setPrice(calculatePrice());
+    }
 
 	@Override
 	public Long getId() {
